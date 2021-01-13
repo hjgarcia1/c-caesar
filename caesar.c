@@ -3,84 +3,67 @@
 #include <string.h>
 #include <stdlib.h>
 
-int is_digit(const char *numbers)
-{
-    if (NULL == numbers || *numbers == '\0')
-    {
-        return 0;
-    }
-
-    while (*numbers)
-    {
-        char c = *numbers;
-        
-        if (c < '0' || c > '9')
-        {
-            return 0;
-        }
-    }
-
-    return 1;
-}
+int check_key(char *key);
+void encrypt_text(char *text, int key);
 
 int main(int argc, char *argv[])
 {
-    if (is_digit(1))
+    if (argc == 2)
     {
-        printf("we have digit.");
+        check_key(argv[1]);
+
+        int key = atoi(argv[1]);
+
+        char plaintext[64];
+
+        printf("What is your text: ");
+        fgets(plaintext, 64, stdin);
+        printf("\n");
+        printf("Plain text: %s\n", plaintext);
+        printf("Encrypted text: ");
+
+        encrypt_text(plaintext, key);
+
+        printf("\n");
+
+        return 0;
     }
     else
     {
-        printf("no digit");
+        printf("You must provide a key.");
+        return 1;
     }
+}
+
+int check_key(char *key)
+{
+    int i, length = strlen(key);
+
+    for (i = 0; i < length; i++)
+    {
+        if (!isdigit(key[i]))
+        {
+            printf("Entered key is not a number.\n");
+            return 1;
+        }
+    }
+
     return 0;
+}
 
-    // if (argc == 2)
-    // {
-    //     printf("%i", isNumber(argv[1]);
+void encrypt_text(char *text, int key)
+{
+    int i;
 
-    //     // if (isNumber(argv[1]) == 1)
-    //     // {
-    //     //     printf("You must provide a positive integer.");
-    //     //     return 1;
-    //     // }
-
-    //     // char plaintext[64];
-    //     // int i;
-    //     // int key = (int)argv[1];
-
-    //     // if (isdigit((int)argv[1]) == 1)
-    //     // {
-    //     //     printf("What is your text: ");
-    //     //     fgets(plaintext, 64, stdin);
-    //     //     printf("\n");
-    //     //     printf("Plain text: %s\n", plaintext);
-    //     //     printf("Encrypted text: ");
-    //     //     for (i = 0; i < strlen(plaintext); i++)
-    //     //     {
-    //     //         if (isalpha(plaintext[i]))
-    //     //         {
-    //     //             printf("%c", (int)plaintext[i] + key);
-    //     //         }
-    //     //         else
-    //     //         {
-    //     //             printf("%c", plaintext[i]);
-    //     //         }
-    //     //     }
-
-    //     //     printf("\n");
-    //     // }
-    //     // else
-    //     // {
-    //     //     printf("You must provide a positive integer.");
-    //     //     return 1;
-    //     // }
-
-    //     return 0;
-    // }
-    // else
-    // {
-    //     printf("You must provide a key.");
-    //     return 1;
-    // }
+    for (i = 0; i < strlen(text); i++)
+    {
+        if (isalpha(text[i]))
+        {
+            printf("%c", (int)text[i] + key);
+        }
+        else
+        {
+            printf("%c", text[i]);
+        }
+    }
 }
